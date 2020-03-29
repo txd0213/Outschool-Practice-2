@@ -1,0 +1,51 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int upperbound(int a[],int m,int n)
+{
+    int left=0,right=n,mid=left+(right-left)/2,result=-1;
+    while(left<right)
+    {
+        mid=left+(right-left)/2;
+        if(a[mid]==m) left=mid+1;
+        else if(a[mid]<m) left=mid+1;
+        else {right=mid;result=mid;}
+    }
+    if(result==-1&&a[n-1]>m) {result=n-1;}
+    return result;
+}
+int lowerbound(int a[],int m,int n)
+{
+    int left=0,right=n,mid,result=-1;
+    while(left<right)
+    {
+        mid=left+(right-left)/2;
+        if(a[mid]>=m) right=mid;
+        else {left=mid+1;result=mid;}
+    }
+    if(result==-1&&a[0]<m) result=0;
+    return result;
+}
+int main()
+{
+    int n,t,a[100000],m;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++) scanf("%d",&a[i]);
+    sort(a,a+n);
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d",&m);
+        if(m<a[0])   {printf("%d\n",a[0]);continue;}
+        if(m>a[n-1]) {printf("%d\n",a[n-1]);continue;}
+        int left=lowerbound(a,m,n);
+        int right=upperbound(a,m,n);
+        if(left==-1) {printf("%d\n",a[right]);continue;}
+        if(right==-1) {printf("%d\n",a[left]);continue;}
+        int answer=m-a[left]>a[right]-m?a[right]:a[left];
+        printf("%d\n",answer);
+
+    }
+    return 0;
+}
