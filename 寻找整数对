@@ -1,0 +1,36 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int a[100000],ans1,ans2,flag;
+int search2(int sum,int n)
+{
+     flag=0;
+    for(int i=0;i<=n-2;i++)
+    {
+        int left=i+1,right=n;
+        int mid=left+(right-left)/2;
+        while(left<right)
+        {
+            mid=left+(right-left)/2;
+            if(a[mid]+a[i]==sum) {flag=1;break;}
+            else if(a[mid]+a[i]<sum) left=mid+1;
+            else right=mid;
+
+        }
+        if(flag) {ans1=i;ans2=mid;break;}
+    }
+    return 0;
+}
+int main()
+{
+    int n,sum;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++) scanf("%d",&a[i]);
+    sort(a,a+n-1);
+    scanf("%d",&sum);
+    search2(sum,n);
+    if(flag) printf("%d %d",a[ans1],a[ans2]);
+    else printf("No");
+    return 0;
+}
